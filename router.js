@@ -19,12 +19,14 @@ app.use(session({
     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora', // Change this to a strong secret key for session
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 1000*60*60*5 }  // Use 'true' if you're using HTTPS
+    cookie: { secure: true, maxAge: 1000*60*60*5 }  // Use 'true' if you're using HTTPS
 }));
 
 // Static assets and view engine setup
+const path = require('path');
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.use("/views", express.static("views"));
+// app.use("/views", express.static("views")); //in deployment deactivate
 app.use("/assets/css", express.static("assets/css"));
 app.use("/assets/js", express.static("assets/js"));
 app.use("/assets/img", express.static("assets/img"));
