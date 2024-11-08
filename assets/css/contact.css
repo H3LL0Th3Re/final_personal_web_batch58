@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.contact-form {
+    width: 50%;
+    margin: 50px auto;
+    background-color: #e8ebed;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 1);
+}
+
+.contact-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form input, 
+.contact-form select, 
+.contact-form textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: inset 0px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.contact-form button {
+    padding: 15px;
+    background-color: #2d3e50;
+    color: white;
+    border: none;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background-color: #1c2734;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .contact-form {
+        width: 80%; /* Adjust width for tablets */
+        padding: 20px; /* Reduce padding */
+    }
+
+    .contact-form h1 {
+        font-size: 24px; /* Adjust heading size */
+    }
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+        font-size: 14px; /* Smaller font size for inputs */
+    }
+
+    .contact-form button {
+        font-size: 14px; /* Adjust button font size */
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-form {
+        width: 90%; /* Full width on mobile devices */
+        padding: 15px; /* Further reduce padding */
+    }
+
+    .contact-form h1 {
+        font-size: 20px; /* Smaller heading size */
+    }
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+        padding: 8px; /* Reduce input padding */
+        font-size: 12px; /* Further reduce font size for inputs */
+    }
+
+    .contact-form button {
+        padding: 12px; /* Reduce button padding */
+        font-size: 12px; /* Smaller font size for button */
+    }
+}

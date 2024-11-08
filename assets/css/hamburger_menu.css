@@ -1,0 +1,188 @@
+/* Navigation Bar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+}
+
+/* Left-side Navigation (Logo and Links) */
+nav .left-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Logo Styling */
+nav .logo img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Navigation Links Styling */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+/* Contact Me Button (Far Right) */
+/* nav .contact-me {
+    display: flex;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+} */
+
+/* Navigation Links (Under Icon) */
+nav a.nav_id {
+    color: black;
+    text-decoration: none;
+    padding-left: 10px;
+}
+
+/* Contact Me Menu - Hidden by Default */
+#myLinks {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    flex-direction: row;
+    gap: 20px;
+    z-index: 1000;
+}
+
+/* Show Menu When Opened */
+#myLinks.active {
+    display: flex;
+}
+
+/* Navigation Links Styling */
+#myLinks a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hover and Active Styles */
+#myLinks a:hover {
+    background-color: #1a1a2e;
+    color: white;
+}
+
+#myLinks a.active {
+    background-color: #1a1a2e;
+    color: white;
+}
+
+.navbar-nav .nav-link {
+    color: black; /* Text color */
+    font-weight: bold; /* Bold text */
+    padding: 10px 15px; /* Padding for spacing */
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #f8f9fa; /* Change background on hover */
+    color: #007bff; /* Change text color on hover */
+}
+
+
+/* Hamburger Icon */
+.icon {
+    cursor: pointer;
+    height: 50px; /* Match the height of the logo */
+    display: flex;
+    align-items: center; /* Center the icon vertically */
+    border: none; /* Remove any borders */
+    outline: none; /* Remove any outlines */
+    background: none; /* Remove any background */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.icon i {
+    font-size: 24px; /* Font size for hamburger icon */
+    line-height: 50px; /* Center icon vertically */
+    margin: 0; /* Ensure no margin */
+    padding: 0; /* Ensure no padding */
+    text-decoration: none; /* Remove text decoration */
+}
+
+/* Reset all styles to eliminate the blue line */
+.icon,
+nav a {
+    box-shadow: none; /* Remove box-shadow */
+    border: none; /* Remove borders */
+    text-decoration: none; /* Remove text decoration */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: row; /* Keep elements in a row */
+        align-items: center; /* Align items to the center */
+    }
+
+    nav .left-nav {
+        width: 100%; /* Make left-nav full width */
+        justify-content: space-between; /* Adjust spacing */
+    }
+
+    nav ul {
+        display: none; /* Hide the regular menu */
+    }
+
+    .icon {
+        margin-left: auto; /* Push icon to the right */
+        align-self: center; /* Center the icon vertically */
+    }
+
+    #myLinks {
+        flex-direction: column; /* Stack dropdown items vertically */
+        top: 50px; /* Adjust position below the icon */
+        right: 0; /* Align to the right */
+    }
+
+    #myLinks.active {
+        display: flex; /* Show menu when active */
+    }
+}
+
+@media (max-width: 480px) {
+    .icon i {
+        font-size: 20px; /* Smaller icon on mobile */
+    }
+
+    nav .left-nav {
+        gap: 10px; /* Reduce gap between logo and links */
+    }
+
+    nav ul {
+        flex-direction: column; /* Stack links vertically on smaller devices */
+    }
+
+    nav ul li a {
+        padding: 8px; /* Reduce padding on links */
+        font-size: 14px; /* Smaller font size */
+    }
+
+    nav .contact-me {
+        padding: 8px 10px; /* Adjust contact button padding */
+    }
+}

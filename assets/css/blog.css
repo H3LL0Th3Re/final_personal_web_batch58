@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-section,
+.projects-section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+textarea {
+    resize: none;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap; /* Allow checkboxes to wrap */
+    gap: 15px;
+}
+
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.project-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.project-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.project-card h3 {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.project-card p {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
+
+.project-duration {
+    font-size: 12px;
+    color: #999;
+}
+
+.project-techs {
+    font-size: 12px;
+    color: #666;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 15px;
+}
+
+button.edit,
+button.delete {
+    padding: 8px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 40%;
+}
+
+button.edit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button.delete {
+    background-color: #F44336;
+    color: white;
+}
+
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 22px; /* Adjust heading size */
+    }
+
+    .form-section,
+    .projects-section {
+        padding: 15px; /* Reduce padding */
+    }
+
+    .projects-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust project card layout */
+    }
+}
+
+@media (max-width: 768px) {
+    .projects-container {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+
+    .project-card img {
+        height: 120px; /* Adjust image height */
+    }
+
+    button {
+        width: 100%; /* Make buttons full width */
+        margin-bottom: 10px; /* Add space between buttons */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px; /* Reduce container padding */
+    }
+
+    h1 {
+        font-size: 20px; /* Smaller heading size */
+    }
+
+    .modal-content {
+        width: 90%; /* Full width modal on mobile */
+        margin: 10% auto; /* Adjust margin for mobile */
+    }
+
+    button {
+        padding: 10px; /* Adjust button padding */
+    }
+}

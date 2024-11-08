@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonials</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Added Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/css/testimonial.css"> <!-- Include your CSS file -->
+    <link rel="stylesheet" href="../assets/css/hamburger_menu.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="left-nav">
+            <div class="logo">
+                <img src="https://media.licdn.com/dms/image/D560BAQH0uQTwn0u9RA/company-logo_200_200/0/1694505471050/dumbways_id_logo?e=2147483647&v=beta&t=pvIPWnpRc4-52xOZ_4Nt5dJtCsc6iGlNMow1sAeydhw" alt="Logo" class="img-fluid">
+            </div>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="contact-me" id="myLinks">
+                <a href="/" class="nav_id nav-link">Home</a>
+                <a href="/add-project" class="nav_id nav-link">My Projects</a>
+                <a href="/contact" class="nav_id nav-link">Contact Me</a>
+                <a href="/testimonial" class="nav_id nav-link">Testimonials</a>
+                <a href="/register" class="nav_id nav-link">Register</a>
+                <a href="/login" class="nav_id nav-link">Login</a>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i style="color: black;" class="fa fa-bars"></i>
+        </a>
+    </nav>
+
+    <section class="testimonials container">
+        <h1>My Testimonials</h1>
+        <h2>Rating By Star</h2>
+        <div class="filter-buttons mb-3">
+            <button class="filter-btn btn btn-primary" data-rating="all">All</button>
+            <button class="filter-btn btn btn-primary" data-rating="1">1★</button>
+            <button class="filter-btn btn btn-primary" data-rating="2">2★</button>
+            <button class="filter-btn btn btn-primary" data-rating="3">3★</button>
+            <button class="filter-btn btn btn-primary" data-rating="4">4★</button>
+            <button class="filter-btn btn btn-primary" data-rating="5">5★</button>
+        </div>
+        <div id="testimonials-container" class="testimonials-container">
+            <!-- Testimonial cards will be added here dynamically -->
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- Added jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script> <!-- Added Popper.js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> <!-- Added Bootstrap JS -->
+    <script src="../assets/js/testimonial.js"></script>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myLinks");
+            if (x.style.display === "flex") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "flex";
+            }
+        }
+        
+        // Call this function in your testimonials.js file to display testimonials
+        window.onload = function() {
+            const testimonialManager = new TestimonialManager();
+            const container = document.getElementById('testimonials-container'); // Correct ID
+            testimonialManager.displayTestimonials(container); // Display testimonials
+
+            // Active Page Styling
+            const links = document.querySelectorAll("#myLinks a");
+            links.forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                }
+            });
+        };
+    </script>
+</body>
+</html>

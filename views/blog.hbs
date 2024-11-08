@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/css/blog.css">
+    <link rel="stylesheet" href="../assets/css/hamburger_menu.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script> <!-- Popper.js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> <!-- Bootstrap JS -->
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="left-nav">
+            <div class="logo">
+                <img src="https://media.licdn.com/dms/image/D560BAQH0uQTwn0u9RA/company-logo_200_200/0/1694505471050/dumbways_id_logo?e=2147483647&v=beta&t=pvIPWnpRc4-52xOZ_4Nt5dJtCsc6iGlNMow1sAeydhw" alt="Logo" class="img-fluid">
+            </div>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="contact-me" id="myLinks">
+                <a href="/" class="nav_id nav-link">Home</a>
+                <a href="/add-project" class="nav_id nav-link">My Projects</a>
+                <a href="/contact" class="nav_id nav-link">Contact Me</a>
+                <a href="/testimonial" class="nav_id nav-link">Testimonials</a>
+                <a href="/register" class="nav_id nav-link">Register</a>
+                <a href="/login" class="nav_id nav-link">Login</a>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i style="color: black;" class="fa fa-bars"></i>
+        </a>
+    </nav>
+    
+    <div class="container">
+        <!-- Form Section -->
+        <section class="form-section mt-4">
+            <h1 class="text-center display-4">Add My Project</h1>
+            <form id="projectForm" action="/add-project" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" name="title" id="projectName" class="form-control" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" name="startDate" id="startDate" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="endDate">End Date</label>
+                        <input type="date" name="endDate" id="endDate" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" rows="4" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Technologies</label>
+                    <div class="checkbox-group">
+                        <div class="form-check">
+                            <input type="checkbox" name="technologies" id="nodejs" class="form-check-input" value="Node Js">
+                            <label for="nodejs" class="form-check-label">Node Js</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" name="technologies" id="nextjs" class="form-check-input" value="Next Js">
+                            <label for="nextjs" class="form-check-label">Next Js</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" name="technologies" id="reactjs" class="form-check-input" value="React Js">
+                            <label for="reactjs" class="form-check-label">React Js</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" name="technologies" id="typescript" class="form-check-input" value="TypeScript">
+                            <label for="typescript" class="form-check-label">TypeScript</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="image">Upload Image</label>
+                    <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
+                    <img id="imagePreview" src="" alt="Image Preview" style="display: none;" class="img-fluid mt-2">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myLinks");
+            if (x.style.display === "flex") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "flex";
+            }
+        }
+
+        // Active Page Styling
+        window.onload = function() {
+            var links = document.querySelectorAll("#myLinks a");
+            links.forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                }
+            });
+        };
+
+        // Image Preview Functionality
+        document.getElementById('image').addEventListener('change', function(event) {
+            const imagePreview = document.getElementById('imagePreview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <script type="module" src="../assets/js/blog.js"></script>
+</body>
+</html>

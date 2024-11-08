@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio - Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/hamburger_menu.css">
+    <link rel="stylesheet" href="/assets/css/register.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="left-nav">
+            <div class="logo">
+                <img src="https://media.licdn.com/dms/image/D560BAQH0uQTwn0u9RA/company-logo_200_200/0/1694505471050/dumbways_id_logo?e=2147483647&v=beta&t=pvIPWnpRc4-52xOZ_4Nt5dJtCsc6iGlNMow1sAeydhw" alt="Logo" class="img-fluid">
+            </div>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="contact-me" id="myLinks">
+                <a href="/" class="nav_id nav-link">Home</a>
+                <a href="/add-project" class="nav_id nav-link">My Projects</a>
+                <a href="/contact" class="nav_id nav-link">Contact Me</a>
+                <a href="/testimonial" class="nav_id nav-link">Testimonials</a>
+                <a href="/register" class="nav_id nav-link">Register</a>
+                <a href="/login" class="nav_id nav-link">Login</a>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i style="color: black;" class="fa fa-bars"></i>
+        </a>
+    </nav>
+
+    <!-- Registration Form Container -->
+    <div class="register-container">
+        <h1>REGISTER</h1>
+        <form action="/register" method="POST">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" required>
+
+            <label for="email">Email</label>
+            <input type="email" name="email" class="form-control" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" required>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myLinks");
+            x.style.display = (x.style.display === "flex") ? "none" : "flex";
+        }
+    
+        // Active Page Styling
+        window.onload = function() {
+            var links = document.querySelectorAll("#myLinks a");
+            links.forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                }
+            });
+        };
+    </script>
+</body>
+</html>

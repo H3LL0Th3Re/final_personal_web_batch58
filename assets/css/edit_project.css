@@ -1,0 +1,87 @@
+/* Full CSS code for the project update form page */
+
+body {
+    background-color: #d1d5db; /* Light gray background for the entire page */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 500px;
+    background-color: #f8fafc; /* Slightly lighter background for the form container */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-top: 50px; /* Center the form vertically */
+}
+
+h2 {
+    color: #111827; /* Dark text color */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group label, legend {
+    color: #1f2937; /* Darker gray for labels and legend text */
+    font-weight: bold;
+}
+
+.form-group input, .form-group textarea, .custom-file-label {
+    border-radius: 4px;
+    border: 1px solid #cbd5e0; /* Light gray border */
+    padding: 8px;
+    color: #374151;
+    background-color: #f9fafb;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #4f46e5; /* Focus color for inputs */
+    box-shadow: 0px 0px 5px rgba(79, 70, 229, 0.3);
+}
+
+.custom-file-label::after {
+    content: "Browse"; /* Custom text for file input button */
+    background-color: #4f46e5; /* Purple color */
+    color: white;
+    border-radius: 0 4px 4px 0;
+    padding: 8px 12px;
+}
+
+.image-preview img {
+    max-width: 100px; /* Limiting the preview size */
+    max-height: 100px;
+    object-fit: cover;
+    display: block;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e0; /* Border around preview */
+}
+
+button[type="submit"] {
+    background-color: #1f2937; /* Dark background for submit button */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #4f46e5; /* Purple on hover */
+}
+
+.form-check-label {
+    color: #374151; /* Darker gray for checkbox labels */
+}
+
+.form-check-input:checked + .form-check-label {
+    font-weight: bold; /* Emphasize selected technologies */
+}
+
+/* Custom styling for Bootstrap classes */
+.custom-file-input:focus ~ .custom-file-label {
+    border-color: #4f46e5;
+    box-shadow: 0px 0px 5px rgba(79, 70, 229, 0.3);
+}

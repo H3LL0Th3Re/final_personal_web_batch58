@@ -1,0 +1,107 @@
+/* Reset styles restricted to login form */
+.login-container * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Ensure the body styling does not interfere with the navbar */
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #e4e8ed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Separate the navbar and content below it */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+/* Login Container Styling */
+.login-container {
+    background-color: #f4f5f7;
+    padding: 2em 2em; /* Adjusted padding */
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 120px;
+}
+
+/* Header Styling inside Login Box */
+.login-container h1 {
+    font-size: 1.8em; /* Smaller font size */
+    margin-bottom: 2em;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Form Labels inside login form */
+.login-container label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 0.5em; /* Less margin */
+    text-align: left;
+    font-size: 1.1em;
+    width: 100%;
+}
+
+/* Form Controls inside login form */
+.login-container input.form-control {
+    width: 100%;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1.5em;
+    font-size: 1em;
+}
+
+/* Button Styling inside login form */
+.login-container button {
+    width: 100%;
+    padding: 0.8em;
+    border: none;
+    border-radius: 8px;
+    background-color: #000;
+    color: #fff;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: lowercase; /* Match with the design */
+}
+
+/* Button Hover Styling */
+.login-container button:hover {
+    background-color: #333;
+}
+
+/* Ensure the container remains centered and responsive */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 1.5em 1.5em;
+        max-width: 90%;
+    }
+
+    .login-container h1 {
+        font-size: 1.6em;
+    }
+
+    .login-container input.form-control {
+        font-size: 1em;
+    }
+
+    .login-container button {
+        font-size: 1em;
+    }
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/hamburger_menu.css">
+    <link rel="stylesheet" href="/assets/css/project_card.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="left-nav">
+            <div class="logo">
+                <img src="https://media.licdn.com/dms/image/D560BAQH0uQTwn0u9RA/company-logo_200_200/0/1694505471050/dumbways_id_logo?e=2147483647&v=beta&t=pvIPWnpRc4-52xOZ_4Nt5dJtCsc6iGlNMow1sAeydhw" alt="Logo" class="img-fluid">
+            </div>
+        </div>
+        {{#if user}}
+            <h1>Welcome {{user.username}}</h1>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="contact-me" id="myLinks">
+                    <a href="/" class="nav_id nav-link">Home</a>
+                    <a href="/add-project" class="nav_id nav-link">My Projects</a>
+                    <a href="/contact" class="nav_id nav-link">Contact Me</a>
+                    <a href="/testimonial" class="nav_id nav-link">Testimonials</a>
+                    <a href="/register" class="nav_id nav-link">Register</a>
+                    <a href="/login" class="nav_id nav-link">Login</a>
+                    <a href="/logout" class="nav_id nav-link">Logout</a>
+                </div>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i style="color: black;" class="fa fa-bars"></i>
+            </a>
+        {{else}}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="contact-me" id="myLinks">
+                    <a href="/" class="nav_id nav-link">Home</a>
+                    <a href="/add-project" class="nav_id nav-link">My Projects</a>
+                    <a href="/contact" class="nav_id nav-link">Contact Me</a>
+                    <a href="/testimonial" class="nav_id nav-link">Testimonials</a>
+                    <a href="/register" class="nav_id nav-link">Register</a>
+                    <a href="/login" class="nav_id nav-link">Login</a>
+                </div>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i style="color: black;" class="fa fa-bars"></i>
+            </a>
+        {{/if}}
+    </nav>
+
+    <!-- Main Section -->
+    <section class="profile">
+        <div class="container text-center">
+            <div class="intro">
+                <h1 class="display-4">Hi, Welcome to My Hut</h1>
+                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique purus orci libero egestas ut. Augue suspendisse blandit lorem massa ipsum.</p>
+                <div class="buttons mb-4">
+                    <button class="btn btn-primary btn-lg">Contact</button>
+                    <a href="#" class="btn btn-outline-secondary btn-lg"><i class="fas fa-download"></i> Download CV</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/theodore-lauw-9451bb220/" class="btn btn-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="btn btn-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="btn btn-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="btn btn-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="profile-image mt-4">
+                <img src="/assets/img/picOfMe.png" alt="Profile Picture" class="img-fluid rounded-circle">
+                <h3 class="mt-3">Theodore</h3>
+                <p class="text-muted">Fullstack Developer</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-section mt-4">
+        <div class="container">
+            <h1 class="text-center display-4">My Projects</h1>
+            <div id="projectsContainer" class="row">
+                
+            </div>
+        </div>
+    </section>
+
+
+
+    <script src="../assets/js/blog.js"></script>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myLinks");
+            x.style.display = (x.style.display === "flex") ? "none" : "flex";
+        }
+    
+        // Active Page Styling
+        window.onload = function() {
+            var links = document.querySelectorAll("#myLinks a");
+            links.forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        // Ensure that the JavaScript executes after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProjects(); // Ensure loadProjects is defined in blog.js
+        });
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const descriptions = document.querySelectorAll('.description');
+            descriptions.forEach(description => {
+                const maxLength = 120; // Set the character limit
+                if (description.innerText.length > maxLength) {
+                    description.innerText = description.innerText.substring(0, maxLength) + '...';
+                }
+            });
+        });
+    </script>
+
+
+    
+</body>
+</html>
