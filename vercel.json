@@ -4,7 +4,11 @@
         { "src": "router.js", "use": "@vercel/node" }
     ],
     "routes": [
+        { "src": "/login", "dest": "router.js" },
+        { "src": "/register", "dest": "router.js" },
+        { "src": "/assets/(.*)", "dest": "/assets/$1" },  // Serve static assets
         { "src": "/(.*)", "dest": "router.js" }
     ]
 }
+
   
