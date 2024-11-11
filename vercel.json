@@ -8,10 +8,7 @@
         { "src": "/register", "dest": "router.js" },
         { "src": "/assets/(.*)", "dest": "/assets/$1" },  
         { "src": "/(.*)", "dest": "router.js" }
-    ],
-    "static": {
-        "assets": "assets"
-    }
+    ]
 }
 
   
