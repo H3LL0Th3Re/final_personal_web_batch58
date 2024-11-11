@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 5501;
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
-
+require("dotenv").config();
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
