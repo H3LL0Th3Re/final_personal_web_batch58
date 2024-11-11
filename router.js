@@ -20,9 +20,10 @@ app.use(session({
         pool: pool, // connection pool
         tableName: 'session'
     }),
+    name: 'my-session',
     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         secure: process.env.NODE_ENV === 'production', 
         httpOnly: true,
