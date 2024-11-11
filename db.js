@@ -21,7 +21,7 @@ pool.connect((err) => {
 module.exports = pool;
 
 
-const { Pool } = require('pg');
+// const { Pool } = require('pg');
 
 //for local
 // const pool = new Pool({
