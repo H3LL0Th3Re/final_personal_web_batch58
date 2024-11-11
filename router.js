@@ -20,13 +20,14 @@ app.use(session({
     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora',
     resave: false,
     saveUninitialized: true,
-    cookie: { 
-        secure: process.env.NODE_ENV === 'production', // Secure only in production
-        httpOnly: true,
-        sameSite: 'lax', // Allows cross-site requests in a safe way
-        maxAge: 1000 * 60 * 60 * 5
+    cookie: {
+        secure: true,          // Ensure secure cookies on HTTPS
+        httpOnly: true,        // Prevent client-side access to cookies
+        sameSite: 'none',      // Set to 'none' to allow cross-site cookies
+        maxAge: 1000 * 60 * 60 * 5 // 5 hours
     }
 }));
+
 
 // app.use(session({
 //     name: 'my-session',
