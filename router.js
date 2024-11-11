@@ -26,10 +26,11 @@ app.use(session({
 const path = require('path');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.use("/views", express.static("views")); //disable in deploment
-app.use("/assets/css", express.static("assets/css"));
-app.use("/assets/js", express.static("assets/js"));
-app.use("/assets/img", express.static("assets/img"));
+// app.use("/views", express.static("views")); //disable in deploment
+app.use("/assets", express.static(path.join(__dirname, "assets")));
+// app.use("/assets/css", express.static("assets/css"));
+// app.use("/assets/js", express.static("assets/js"));
+// app.use("/assets/img", express.static("assets/img"));
 
 // Authentication middleware
 function isAuthenticated(req, res, next) {
