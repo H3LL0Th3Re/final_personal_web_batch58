@@ -19,7 +19,7 @@ app.use(session({
     name: 'my-session',
     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         secure: true,          // Ensure secure cookies on HTTPS
         httpOnly: true,        // Prevent client-side access to cookies
