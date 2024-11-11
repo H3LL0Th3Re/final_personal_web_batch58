@@ -20,14 +20,13 @@ app.use(session({
         pool: pool, // connection pool
         tableName: 'session'
     }),
-    name: 'my-session',
     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: process.env.NODE_ENV === 'production', 
+        secure: false, 
         httpOnly: true,
-        sameSite: 'none',
+        sameSite: 'lax',
         maxAge: 1000 * 60 * 60 * 100
     }
 }));
