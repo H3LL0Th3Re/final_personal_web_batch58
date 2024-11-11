@@ -15,21 +15,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-app.use(session({
-    store: new pgSession({
-        pool: pool, // connection pool
-        tableName: 'session'
-    }),
-    secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora',
+app.use(
+  session({
+    name: "my-session",
+    secret: "your-secret-key",
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: true, 
-        httpOnly: false,
-        sameSite: 'lax',
-        maxAge: 1000 * 60 * 60 * 100
-    }
-}));
+      secure: process.env.NODE_ENV === 'production',  // Use secure cookies only in production
+      httpOnly: true,  // Ensures cookies are not accessible via JavaScript (security)
+      sameSite: 'None',  // Essential for cross-site cookies (required for third-party cookies in modern browsers)
+      maxAge: 1000 * 60 * 60 * 24,  // Session expires in 24 hours
+    },
+  })
+);
+
 
 app.use((req, res, next) => {
     try{
