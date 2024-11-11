@@ -14,13 +14,27 @@ const upload = multer({ storage });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
 app.use(session({
     name: 'my-session',
-    secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora', // Change this to a strong secret key for session
+    secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true, sameSite: 'lax', maxAge: 1000*60*60*5 }  // Use 'true' if you're using HTTPS
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production', // Secure only in production
+        httpOnly: true,
+        sameSite: 'lax', // Allows cross-site requests in a safe way
+        maxAge: 1000 * 60 * 60 * 5
+    }
 }));
+
+// app.use(session({
+//     name: 'my-session',
+//     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora', // Change this to a strong secret key for session
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: true, sameSite: 'lax', maxAge: 1000*60*60*5 }  // Use 'true' if you're using HTTPS
+// }));
 
 // Static assets and view engine setup
 const path = require('path');
