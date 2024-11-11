@@ -19,7 +19,7 @@ app.use(session({
     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora', // Change this to a strong secret key for session
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true, maxAge: 1000*60*60*5 }  // Use 'true' if you're using HTTPS
+    cookie: { secure: true, sameSite: 'lax', maxAge: 1000*60*60*5 }  // Use 'true' if you're using HTTPS
 }));
 
 // Static assets and view engine setup
