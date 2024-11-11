@@ -3,10 +3,10 @@ const pg = require("pg");
 
 module.exports = {
     development: {
-        username: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DATABASE,
-        host: process.env.POSTGRES_HOST,
+        username: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_DATABASE,
+        host: process.env.DATABASE_HOST,
         dialect: "postgres",
         dialectModule: pg,
         dialectOptions: {
@@ -18,10 +18,10 @@ module.exports = {
     },
 
     production: {
-        username: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DATABASE,
-        host: process.env.POSTGRES_HOST,
+        username: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_DATABASE,
+        host: process.env.DATABASE_HOST,
         dialect: "postgres",
         dialectModule: pg,
         dialectOptions: {
