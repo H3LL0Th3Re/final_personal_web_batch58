@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const methodOverride = require('method-override');
 const multer = require('multer');
 const session = require('express-session');
-
+const pgSession = require('connect-pg-simple')(session);
 const app = express();
 const PORT = process.env.PORT || 5501;
 const storage = multer.memoryStorage();
@@ -16,15 +16,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 app.use(session({
-    name: 'my-session',
+    store: new pgSession({
+        pool: pool, // connection pool
+        tableName: 'session'
+    }),
     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true,          // Ensure secure cookies on HTTPS
-        httpOnly: true,        // Prevent client-side access to cookies
-        sameSite: 'none',      // Set to 'none' to allow cross-site cookies
-        maxAge: 1000 * 60 * 60 * 5 // 5 hours
+        secure: process.env.NODE_ENV === 'production', 
+        httpOnly: true,
+        sameSite: 'none',
+        maxAge: 1000 * 60 * 60 * 5
     }
 }));
 
