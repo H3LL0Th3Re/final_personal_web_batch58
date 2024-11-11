@@ -28,6 +28,16 @@ app.use(session({
     }
 }));
 
+app.use((req, res, next) => {
+    try{
+        console.log('Session ID:', req.sessionID);
+        console.log('Session Data:', req.session);
+        next();
+    }
+    catch(err){
+        res.status(400).json({ error: 'session error', details: err.message });
+    }
+});
 
 // app.use(session({
 //     name: 'my-session',
