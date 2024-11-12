@@ -53,7 +53,7 @@ app.use("/assets", express.static(path.join(__dirname, "assets")));
 // app.use("/assets/img", express.static("assets/img"));
 
 // Authentication middleware
-function isAuthenticated(req, res, next) {
+function isAuthenticated(req, res, next) { //use isAuthenticated if session dosent easily gone like in vercel 
     if (req.session.userId) {
         return next();
     }
@@ -147,7 +147,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Add a new project (protected route)
-app.post('/add-project', isAuthenticated, async (req, res) => {
+app.post('/add-project', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
     const { title, description, startDate, endDate, technologies, imageUrl} = req.body;
     const userId = req.session.userId;
     try {
@@ -170,7 +170,7 @@ app.post('/add-project', isAuthenticated, async (req, res) => {
 });
 
 // Update project
-app.put('/update-project/:id', upload.single('image'), isAuthenticated, async (req, res) => {
+app.put('/update-project/:id', upload.single('image'), async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
     const id = parseInt(req.params.id);
     const { title, description, start_date, end_date, technologies, image_url} = req.body;
     // const imageUrl = req.file ? req.file.buffer.toString('base64') : null;
@@ -263,7 +263,7 @@ app.get('/blog-detail/:id', async (req, res) => {
 
 
 // Edit project route
-app.get('/edit-project/:id', isAuthenticated, async (req, res) => {
+app.get('/edit-project/:id', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
     const { id } = req.params;
     const projectId = parseInt(id, 10);
 
@@ -295,7 +295,7 @@ app.get('/edit-project/:id', isAuthenticated, async (req, res) => {
 });
 
 // Delete project
-app.delete('/delete-project/:id', isAuthenticated, async (req, res) => {
+app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
     const { id } = req.params;
     try {
         const result = await pool.query('DELETE FROM projects WHERE id = $1 RETURNING *', [id]);
