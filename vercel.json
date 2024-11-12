@@ -5,6 +5,9 @@
   ],
   "routes": [
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/router.js" }
-  ]
+    { "src": "/(.*)", "dest": "router.js" }
+  ],
+  "config": {
+    "includeFiles": ["dist/**"]
+  }
 }
