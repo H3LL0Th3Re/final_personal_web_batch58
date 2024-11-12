@@ -1,11 +1,17 @@
+
 {
   "version": 2,
   "builds": [
-    { "src": "router.js", "use": "@vercel/node" },
-    "config": { "includeFiles": ["dist/**"] }
+    {
+      "src": "router.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["dist/**"] }
+    }
   ],
   "routes": [
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "router.js" }
-  ],
+    {
+      "src": "/(.*)",
+      "dest": "router.js"
+    }
+  ]
 }
