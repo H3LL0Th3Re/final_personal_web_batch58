@@ -208,7 +208,7 @@ app.put('/update-project/:id', upload.single('image'), async (req, res) => { //a
             [title, description, start_date, end_date, technologiesJSON, image_url, id]
         );
 
-        res.sendStatus(204);
+        // res.sendStatus(204);
         res.redirect('/');
     } catch (err) {
         res.status(500).json({ error: 'Server error', details: err.message });
