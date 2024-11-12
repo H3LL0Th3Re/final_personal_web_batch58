@@ -16,9 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 app.use(session({
+  name: 'my-sesssion',
   secret: 'your_secret_key',  // Ganti dengan secret key Anda
   resave: false,
-  saveUninitialized: false,
   saveUninitialized: true,
   cookie: {
     secure: true,  // Set true jika menggunakan HTTPS (di produksi)
