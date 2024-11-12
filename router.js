@@ -15,31 +15,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-app.use(
-  session({
-    name: "my-session",
-    secret: "your-secret-key",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production',  // Use secure cookies only in production
-      httpOnly: true,  // Ensures cookies are not accessible via JavaScript (security)
-      sameSite: 'None',  // Essential for cross-site cookies (required for third-party cookies in modern browsers)
-      maxAge: 1000 * 60 * 60 * 24,  // Session expires in 24 hours
-    },
-  })
-);
+app.use(session({
+  secret: 'your_secret_key',  // Ganti dengan secret key Anda
+  resave: false,
+  saveUninitialized: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: true,  // Set true jika menggunakan HTTPS (di produksi)
+    httpOnly: true,
+    
+    maxAge: 1000 * 60 * 60 * 24 // 1 hari
+  }
+}));
 
 
 app.use((req, res, next) => {
-    try{
-        console.log('Session ID:', req.sessionID);
-        console.log('Session Data:', req.session);
-        next();
-    }
-    catch(err){
-        res.status(400).json({ error: 'session error', details: err.message });
-    }
+  res.locals.user = req.session.user || null;
+  next();
 });
 
 // app.use(session({
