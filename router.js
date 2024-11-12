@@ -322,40 +322,42 @@ app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if
 //     }
 // });
 
-// only use when web session dosent expire upon deployment
-// app.get('/projects', async (req, res) => {
-//     try {
-//         const result = await pool.query(`
-//             SELECT projects.*, users.username AS author
-//             FROM projects
-//             JOIN users ON projects.user_id = users.id
-//         `);
-        
-//         const projects = result.rows.map(project => ({
-//             ...project,
-//             technologies: JSON.parse(project.technologies || '[]'),
-//             duration: calculateDuration(project.start_date, project.end_date)
-//         }));
-        
-//         res.json(projects);
-//     } catch (err) {
-//         res.status(500).json({ error: 'Server error', details: err.message });
-//     }
-// });
 
-// Get all projects
 app.get('/projects', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM projects');
-        res.json(result.rows.map(row => ({
-            ...row,
-            technologies: JSON.parse(row.technologies || '[]'),
-            duration: calculateDuration(row.start_date, row.end_date)
-        })));
+        const result = await pool.query(`
+            SELECT projects.*, 
+                   COALESCE(users.username, 'Anonymous') AS author
+            FROM projects
+            LEFT JOIN users ON projects.user_id = users.id
+        `);
+
+        const projects = result.rows.map(project => ({
+            ...project,
+            technologies: JSON.parse(project.technologies || '[]'),
+            duration: calculateDuration(project.start_date, project.end_date)
+        }));
+
+        res.json(projects);
     } catch (err) {
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 });
+
+
+// Get all projects
+// app.get('/projects', async (req, res) => {
+//     try {
+//         const result = await pool.query('SELECT * FROM projects');
+//         res.json(result.rows.map(row => ({
+//             ...row,
+//             technologies: JSON.parse(row.technologies || '[]'),
+//             duration: calculateDuration(row.start_date, row.end_date)
+//         })));
+//     } catch (err) {
+//         res.status(500).json({ error: 'Server error', details: err.message });
+//     }
+// });
 
 
 // Helper function to calculate project duration
