@@ -60,29 +60,29 @@ function isAuthenticated(req, res, next) {
     res.status(403).json({ error: 'Please log in first.' });
 }
 
-// app.get("/", (req, res) => (console.log("Current user: ", req.session.user), res.render("index", {user: req.session.user})));
-app.get("/", async (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect("/login"); // Redirect if user is not logged in
-    }
+app.get("/", (req, res) => (console.log("Current user: ", req.session.user), res.render("index", {user: req.session.user})));
+// app.get("/", async (req, res) => {
+//     if (!req.session.userId) {
+//         return res.redirect("/login"); // Redirect if user is not logged in
+//     }
 
-    try {
-        const result = await pool.query(
-            "SELECT * FROM projects WHERE user_id = $1",
-            [req.session.userId]
-        );
-        const projects = result.rows.map(project => ({
-            ...project,
-            duration: calculateDuration(project.start_date, project.end_date),
-            technologies: JSON.parse(project.technologies || '[]')
-        }));
+//     try {
+//         const result = await pool.query(
+//             "SELECT * FROM projects WHERE user_id = $1",
+//             [req.session.userId]
+//         );
+//         const projects = result.rows.map(project => ({
+//             ...project,
+//             duration: calculateDuration(project.start_date, project.end_date),
+//             technologies: JSON.parse(project.technologies || '[]')
+//         }));
 
-        res.render("index", { user: req.session.user, projects });
-    } catch (err) {
-        console.error("Error fetching user's projects:", err);
-        res.status(500).send("Server error");
-    }
-});
+//         res.render("index", { user: req.session.user, projects });
+//     } catch (err) {
+//         console.error("Error fetching user's projects:", err);
+//         res.status(500).send("Server error");
+//     }
+// });
 
 app.get("/add-project", (req, res) => res.render("blog"));
 app.get("/contact", (req, res) => res.render("contact"));
