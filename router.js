@@ -199,6 +199,43 @@ app.post('/add-project', async (req, res) => {
 
 
 // Update project route (PUT /update-project/:id)
+// app.put('/update-project/:id', upload.single('image'), async (req, res) => {
+//     const id = parseInt(req.params.id);
+//     const { title, description, start_date, end_date, technologies, image_url } = req.body;
+
+//     try {
+//         if (!title || !description || !start_date || !end_date) {
+//             return res.status(400).json({ error: 'All fields are required.' });
+//         }
+
+//         // Fetch the project to check ownership
+//         const projectResult = await pool.query('SELECT user_id FROM projects WHERE id = $1', [id]);
+
+//         if (projectResult.rowCount === 0) {
+//             return res.status(404).json({ error: 'Project not found' });
+//         }
+
+//         const project = projectResult.rows[0];
+
+//         Check if the logged-in user is the owner
+//         if (project.user_id !== req.session.userId) {
+//             return res.status(403).json({ error: 'Unauthorized to edit this project' });
+//         }
+
+//         const technologiesJSON = JSON.stringify(Array.isArray(technologies) ? technologies : [technologies]);
+
+//         await pool.query(
+//             'UPDATE projects SET title = $1, description = $2, start_date = $3, end_date = $4, technologies = $5, image_url = $6 WHERE id = $7',
+//             [title, description, start_date, end_date, technologiesJSON, image_url, id]
+//         );
+
+//         res.redirect("/");
+//     } catch (err) {
+//         res.status(500).json({ error: 'Server error', details: err.message });
+//     }
+// });
+
+// Update project route (PUT /update-project/:id)
 app.put('/update-project/:id', upload.single('image'), async (req, res) => {
     const id = parseInt(req.params.id);
     const { title, description, start_date, end_date, technologies, image_url } = req.body;
@@ -208,19 +245,18 @@ app.put('/update-project/:id', upload.single('image'), async (req, res) => {
             return res.status(400).json({ error: 'All fields are required.' });
         }
 
-        // Fetch the project to check ownership
-        // const projectResult = await pool.query('SELECT user_id FROM projects WHERE id = $1', [id]);
+        const projectResult = await pool.query('SELECT * FROM projects WHERE id = $1', [id]);
 
-        // if (projectResult.rowCount === 0) {
-        //     return res.status(404).json({ error: 'Project not found' });
-        // }
+        if (projectResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
 
-        // const project = projectResult.rows[0];
+        const project = projectResult.rows[0];
 
-        // Check if the logged-in user is the owner
-        // if (project.user_id !== req.session.userId) {
-        //     return res.status(403).json({ error: 'Unauthorized to edit this project' });
-        // }
+        // Allow any anonymous user to update their own anonymous project or any other anonymous project
+        if (project.user_id !== req.session.userId && project.user_id !== null) {
+            return res.status(403).json({ error: 'Unauthorized to edit this project' });
+        }
 
         const technologiesJSON = JSON.stringify(Array.isArray(technologies) ? technologies : [technologies]);
 
@@ -234,7 +270,6 @@ app.put('/update-project/:id', upload.single('image'), async (req, res) => {
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 });
-
 
 
 // app.get('/blog-detail/:id', async (req, res) => {
@@ -292,6 +327,44 @@ app.get('/blog-detail/:id', async (req, res) => {
 
 
 // Edit project route (GET /edit-project/:id)
+// app.get('/edit-project/:id', async (req, res) => {
+//     const { id } = req.params;
+//     const projectId = parseInt(id, 10);
+
+//     if (isNaN(projectId)) {
+//         return res.status(400).send('Invalid project ID');
+//     }
+
+//     try {
+//         Fetch the project and check ownership
+//         const result = await pool.query('SELECT * FROM projects WHERE id = $1', [projectId]);
+        
+//         if (result.rows.length === 0) {
+//             return res.status(404).send('Project not found');
+//         }
+
+//         const project = result.rows[0];
+
+//         // Check if the logged-in user is the owner
+//         if (project.user_id !== req.session.userId) {
+//             return res.status(403).send('Unauthorized to edit this project');
+//         }
+
+//         project.technologies = JSON.parse(project.technologies || '[]');
+//         const allTechnologies = ['Node JS', 'React JS', 'Next JS', 'Type Script'];
+//         project.technologyCheck = allTechnologies.map(tech => ({
+//             name: tech,
+//             checked: project.technologies.includes(tech)
+//         }));
+
+//         res.render('edit_project', { project });
+//     } catch (err) {
+//         console.error('Error fetching project:', err);
+//         res.status(500).send('Server error');
+//     }
+// });
+
+// Edit project route (GET /edit-project/:id)
 app.get('/edit-project/:id', async (req, res) => {
     const { id } = req.params;
     const projectId = parseInt(id, 10);
@@ -301,19 +374,18 @@ app.get('/edit-project/:id', async (req, res) => {
     }
 
     try {
-        // Fetch the project and check ownership
-        // const result = await pool.query('SELECT * FROM projects WHERE id = $1', [projectId]);
-        
-        // if (result.rows.length === 0) {
-        //     return res.status(404).send('Project not found');
-        // }
+        const result = await pool.query('SELECT * FROM projects WHERE id = $1', [projectId]);
 
-        // const project = result.rows[0];
+        if (result.rows.length === 0) {
+            return res.status(404).send('Project not found');
+        }
 
-        // // Check if the logged-in user is the owner
-        // if (project.user_id !== req.session.userId) {
-        //     return res.status(403).send('Unauthorized to edit this project');
-        // }
+        const project = result.rows[0];
+
+        // Allow any anonymous user to edit their own anonymous project or any other anonymous project
+        if (project.user_id !== req.session.userId && project.user_id !== null) {
+            return res.status(403).send('Unauthorized to edit this project');
+        }
 
         project.technologies = JSON.parse(project.technologies || '[]');
         const allTechnologies = ['Node JS', 'React JS', 'Next JS', 'Type Script'];
@@ -330,13 +402,37 @@ app.get('/edit-project/:id', async (req, res) => {
 });
 
 // Delete project
-app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
+// app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
+//     const { id } = req.params;
+//     try {
+//         const result = await pool.query('DELETE FROM projects WHERE id = $1 RETURNING *', [id]);
+//         if (result.rowCount === 0) {
+//             return res.status(404).json({ error: 'Project not found' });
+//         }
+//         res.sendStatus(204);
+//     } catch (err) {
+//         res.status(500).json({ error: 'Server error', details: err.message });
+//     }
+// });
+
+// Delete project
+app.delete('/delete-project/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('DELETE FROM projects WHERE id = $1 RETURNING *', [id]);
+        const result = await pool.query('SELECT * FROM projects WHERE id = $1', [id]);
+        
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Project not found' });
         }
+
+        const project = result.rows[0];
+
+        // Allow any anonymous user to delete their own anonymous project or any other anonymous project
+        if (project.user_id !== req.session.userId && project.user_id !== null) {
+            return res.status(403).json({ error: 'Unauthorized to delete this project' });
+        }
+
+        await pool.query('DELETE FROM projects WHERE id = $1', [id]);
         res.sendStatus(204);
     } catch (err) {
         res.status(500).json({ error: 'Server error', details: err.message });
