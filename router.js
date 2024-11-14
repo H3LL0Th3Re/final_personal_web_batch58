@@ -15,37 +15,37 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-// app.use(session({
-//   name: 'my-sesssion',
-//   secret: 'your_secret_key',  // Ganti dengan secret key Anda
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//     secure: true,  // Set true jika menggunakan HTTPS (di produksi)
-//     httpOnly: true,
+app.use(session({
+  name: 'my-sesssion',
+  secret: 'your_secret_key',  // Ganti dengan secret key Anda
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: true,  // Set true jika menggunakan HTTPS (di produksi)
+    httpOnly: true,
     
-//     maxAge: 1000 * 60 * 60 * 24 // 1 hari
-//   }
-// }));
+    maxAge: 1000 * 60 * 60 * 24 // 1 hari
+  }
+}));
 // Session setup
-app.use(
-  session({
-    store: new pgSession({
-      pool: pool, // Use the existing PostgreSQL pool
-      tableName: 'user_sessions', // Name for the session table in PostgreSQL
-    }),
-    name: 'my-session',
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: true', 
-      httpOnly: true,
-      sameSite: 'lax', // Helps with CSRF protection
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-    },
-  })
-);
+// app.use(
+//   session({
+//     store: new pgSession({
+//       pool: pool, // Use the existing PostgreSQL pool
+//       tableName: 'user_sessions', // Name for the session table in PostgreSQL
+//     }),
+//     name: 'my-session',
+//     secret: 'your_secret_key',
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//       secure: true', 
+//       httpOnly: true,
+//       sameSite: 'lax', // Helps with CSRF protection
+//       maxAge: 1000 * 60 * 60 * 24, // 1 day
+//     },
+//   })
+// );
 
 
 app.use((req, res, next) => {
