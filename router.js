@@ -32,25 +32,7 @@ app.get('/login-anonymous', (req, res) => {
     req.session.anonymousId = `anon_${Date.now()}`;  // Unique anonymous ID based on timestamp
     res.redirect('/');  // Redirect to the homepage or wherever you need
 });
-// Session setup
-// app.use(
-//   session({
-//     store: new pgSession({
-//       pool: pool, // Use the existing PostgreSQL pool
-//       tableName: 'user_sessions', // Name for the session table in PostgreSQL
-//     }),
-//     name: 'my-session',
-//     secret: 'your_secret_key',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: {
-//       secure: true', 
-//       httpOnly: true,
-//       sameSite: 'lax', // Helps with CSRF protection
-//       maxAge: 1000 * 60 * 60 * 24, // 1 day
-//     },
-//   })
-// );
+
 
 
 app.use((req, res, next) => {
@@ -58,13 +40,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use(session({
-//     name: 'my-session',
-//     secret: 'FurubeYuraYuraYatsuganosurugiIkaishinsioMakora', // Change this to a strong secret key for session
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: true, sameSite: 'lax', maxAge: 1000*60*60*5 }  // Use 'true' if you're using HTTPS
-// }));
+
 
 // Static assets and view engine setup
 const path = require('path');
@@ -196,45 +172,6 @@ app.post('/add-project', async (req, res) => {
     }
 });
 
-
-
-// Update project route (PUT /update-project/:id)
-// app.put('/update-project/:id', upload.single('image'), async (req, res) => {
-//     const id = parseInt(req.params.id);
-//     const { title, description, start_date, end_date, technologies, image_url } = req.body;
-
-//     try {
-//         if (!title || !description || !start_date || !end_date) {
-//             return res.status(400).json({ error: 'All fields are required.' });
-//         }
-
-//         // Fetch the project to check ownership
-//         const projectResult = await pool.query('SELECT user_id FROM projects WHERE id = $1', [id]);
-
-//         if (projectResult.rowCount === 0) {
-//             return res.status(404).json({ error: 'Project not found' });
-//         }
-
-//         const project = projectResult.rows[0];
-
-//         Check if the logged-in user is the owner
-//         if (project.user_id !== req.session.userId) {
-//             return res.status(403).json({ error: 'Unauthorized to edit this project' });
-//         }
-
-//         const technologiesJSON = JSON.stringify(Array.isArray(technologies) ? technologies : [technologies]);
-
-//         await pool.query(
-//             'UPDATE projects SET title = $1, description = $2, start_date = $3, end_date = $4, technologies = $5, image_url = $6 WHERE id = $7',
-//             [title, description, start_date, end_date, technologiesJSON, image_url, id]
-//         );
-
-//         res.redirect("/");
-//     } catch (err) {
-//         res.status(500).json({ error: 'Server error', details: err.message });
-//     }
-// });
-
 // Update project route (PUT /update-project/:id)
 app.put('/update-project/:id', upload.single('image'), async (req, res) => {
     const id = parseInt(req.params.id);
@@ -271,32 +208,6 @@ app.put('/update-project/:id', upload.single('image'), async (req, res) => {
     }
 });
 
-
-// app.get('/blog-detail/:id', async (req, res) => {
-//     const { id } = req.params;
-
-//     try {
-//         const result = await pool.query(`
-//             SELECT projects.*, users.username AS author
-//             FROM projects
-//             JOIN users ON projects.user_id = users.id
-//             WHERE projects.id = $1
-//         `, [id]);
-
-//         if (result.rowCount === 0) {
-//             return res.status(404).json({ error: 'Project not found' });
-//         }
-
-//         const project = result.rows[0];
-//         project.duration = calculateDuration(project.start_date, project.end_date);
-//         project.technologies = JSON.parse(project.technologies || '[]');
-
-//         res.render('blog_detail', { blog: project });
-//     } catch (err) {
-//         res.status(500).json({ error: 'Server error', details: err.message });
-//     }
-// });
-
 app.get('/blog-detail/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -325,44 +236,6 @@ app.get('/blog-detail/:id', async (req, res) => {
 });
 
 
-
-// Edit project route (GET /edit-project/:id)
-// app.get('/edit-project/:id', async (req, res) => {
-//     const { id } = req.params;
-//     const projectId = parseInt(id, 10);
-
-//     if (isNaN(projectId)) {
-//         return res.status(400).send('Invalid project ID');
-//     }
-
-//     try {
-//         Fetch the project and check ownership
-//         const result = await pool.query('SELECT * FROM projects WHERE id = $1', [projectId]);
-        
-//         if (result.rows.length === 0) {
-//             return res.status(404).send('Project not found');
-//         }
-
-//         const project = result.rows[0];
-
-//         // Check if the logged-in user is the owner
-//         if (project.user_id !== req.session.userId) {
-//             return res.status(403).send('Unauthorized to edit this project');
-//         }
-
-//         project.technologies = JSON.parse(project.technologies || '[]');
-//         const allTechnologies = ['Node JS', 'React JS', 'Next JS', 'Type Script'];
-//         project.technologyCheck = allTechnologies.map(tech => ({
-//             name: tech,
-//             checked: project.technologies.includes(tech)
-//         }));
-
-//         res.render('edit_project', { project });
-//     } catch (err) {
-//         console.error('Error fetching project:', err);
-//         res.status(500).send('Server error');
-//     }
-// });
 
 // Edit project route (GET /edit-project/:id)
 app.get('/edit-project/:id', async (req, res) => {
@@ -401,19 +274,6 @@ app.get('/edit-project/:id', async (req, res) => {
     }
 });
 
-// Delete project
-// app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
-//     const { id } = req.params;
-//     try {
-//         const result = await pool.query('DELETE FROM projects WHERE id = $1 RETURNING *', [id]);
-//         if (result.rowCount === 0) {
-//             return res.status(404).json({ error: 'Project not found' });
-//         }
-//         res.sendStatus(204);
-//     } catch (err) {
-//         res.status(500).json({ error: 'Server error', details: err.message });
-//     }
-// });
 
 // Delete project
 app.delete('/delete-project/:id', async (req, res) => {
