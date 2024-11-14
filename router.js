@@ -171,7 +171,7 @@ app.post('/add-project', async (req, res) => { //add isAuthenticated if session 
 });
 
 // Update project route (PUT /update-project/:id)
-app.put('/update-project/:id', upload.single('image'), isAuthenticated, async (req, res) => {
+app.put('/update-project/:id', upload.single('image'), async (req, res) => {
     const id = parseInt(req.params.id);
     const { title, description, start_date, end_date, technologies, image_url } = req.body;
 
@@ -197,8 +197,8 @@ app.put('/update-project/:id', upload.single('image'), isAuthenticated, async (r
         const technologiesJSON = JSON.stringify(Array.isArray(technologies) ? technologies : [technologies]);
 
         await pool.query(
-            'UPDATE projects SET title = $1, description = $2, start_date = $3, end_date = $4, technologies = $5, image_url = $6 WHERE id = $7',
-            [title, description, start_date, end_date, technologiesJSON, image_url, id]
+            'UPDATE projects SET title = $1, description = $2, start_date = $3, end_date = $4, technologies = $5, image_url = $6',
+            [title, description, start_date, end_date, technologiesJSON, image_url]
         );
 
         res.redirect("/");
@@ -263,7 +263,7 @@ app.get('/blog-detail/:id', async (req, res) => {
 
 
 // Edit project route (GET /edit-project/:id)
-app.get('/edit-project/:id', isAuthenticated, async (req, res) => {
+app.get('/edit-project/:id', async (req, res) => {
     const { id } = req.params;
     const projectId = parseInt(id, 10);
 
@@ -301,18 +301,18 @@ app.get('/edit-project/:id', isAuthenticated, async (req, res) => {
 });
 
 // Delete project
-app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
-    const { id } = req.params;
-    try {
-        const result = await pool.query('DELETE FROM projects WHERE id = $1 RETURNING *', [id]);
-        if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Project not found' });
-        }
-        res.sendStatus(204);
-    } catch (err) {
-        res.status(500).json({ error: 'Server error', details: err.message });
-    }
-});
+// app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
+//     const { id } = req.params;
+//     try {
+//         const result = await pool.query('DELETE FROM projects WHERE id = $1 RETURNING *', [id]);
+//         if (result.rowCount === 0) {
+//             return res.status(404).json({ error: 'Project not found' });
+//         }
+//         res.sendStatus(204);
+//     } catch (err) {
+//         res.status(500).json({ error: 'Server error', details: err.message });
+//     }
+// });
 
 // Get all projects
 // app.get('/projects', async (req, res) => {
@@ -330,7 +330,7 @@ app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if
 
 
 // Delete project route (DELETE /delete-project/:id)
-app.delete('/delete-project/:id', isAuthenticated, async (req, res) => {
+app.delete('/delete-project/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
