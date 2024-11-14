@@ -61,6 +61,7 @@ function isAuthenticated(req, res, next) { //use isAuthenticated if session dose
 }
 
 app.get("/", (req, res) => (console.log("Current user: ", req.session.user), res.render("index", {user: req.session.user})));
+
 // app.get("/", async (req, res) => {
 //     if (!req.session.userId) {
 //         return res.redirect("/login"); // Redirect if user is not logged in
@@ -169,59 +170,54 @@ app.post('/add-project', async (req, res) => { //add isAuthenticated if session 
     }
 });
 
-// Update project
-app.put('/update-project/:id', upload.single('image'), async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
+// Update project route (PUT /update-project/:id)
+app.put('/update-project/:id', upload.single('image'), isAuthenticated, async (req, res) => {
     const id = parseInt(req.params.id);
-    const { title, description, start_date, end_date, technologies, image_url} = req.body;
-    // const imageUrl = req.file ? req.file.buffer.toString('base64') : null;
-    
+    const { title, description, start_date, end_date, technologies, image_url } = req.body;
+
     try {
         if (!title || !description || !start_date || !end_date) {
             return res.status(400).json({ error: 'All fields are required.' });
         }
 
-        // Validate date format (YYYY-MM-DD)
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(start_date) || !/^\d{4}-\d{2}-\d{2}$/.test(end_date)) {
-            return res.status(400).json({ error: 'Invalid date format. Use YYYY-MM-DD.' });
+        // Fetch the project to check ownership
+        const projectResult = await pool.query('SELECT user_id FROM projects WHERE id = $1', [id]);
+
+        if (projectResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Project not found' });
         }
 
-        let parsedTechnologies = [];
-        if (technologies) {
-            if (typeof technologies === 'string') {
-                try {
-                    parsedTechnologies = JSON.parse(technologies);
-                } catch (error) {
-                    return res.status(400).json({ error: 'Invalid technologies format' });
-                }
-            } else if (Array.isArray(technologies)) {
-                parsedTechnologies = technologies;
-            } else {
-                parsedTechnologies = [technologies];
-            }
+        const project = projectResult.rows[0];
+
+        // Check if the logged-in user is the owner
+        if (project.user_id !== req.session.userId) {
+            return res.status(403).json({ error: 'Unauthorized to edit this project' });
         }
 
-        const technologiesJSON = JSON.stringify(parsedTechnologies);
-        console.log("the image_url: ", image_url);
+        const technologiesJSON = JSON.stringify(Array.isArray(technologies) ? technologies : [technologies]);
 
         await pool.query(
             'UPDATE projects SET title = $1, description = $2, start_date = $3, end_date = $4, technologies = $5, image_url = $6 WHERE id = $7',
             [title, description, start_date, end_date, technologiesJSON, image_url, id]
         );
 
-        // res.sendStatus(204);
-        res.redirect('/');
+        res.redirect("/");
     } catch (err) {
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 });
 
 
-// Blog details route
 // app.get('/blog-detail/:id', async (req, res) => {
 //     const { id } = req.params;
 
 //     try {
-//         const result = await pool.query('SELECT * FROM projects WHERE id = $1', [id]);
+//         const result = await pool.query(`
+//             SELECT projects.*, users.username AS author
+//             FROM projects
+//             JOIN users ON projects.user_id = users.id
+//             WHERE projects.id = $1
+//         `, [id]);
 
 //         if (result.rowCount === 0) {
 //             return res.status(404).json({ error: 'Project not found' });
@@ -242,14 +238,15 @@ app.get('/blog-detail/:id', async (req, res) => {
 
     try {
         const result = await pool.query(`
-            SELECT projects.*, users.username AS author
+            SELECT projects.*, COALESCE(users.username, 'Anonymous') AS author
             FROM projects
-            JOIN users ON projects.user_id = users.id
+            LEFT JOIN users ON projects.user_id = users.id
             WHERE projects.id = $1
         `, [id]);
 
         if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Project not found' });
+            // Project not found, handle as needed
+            return res.status(404).send('Project not found');
         }
 
         const project = result.rows[0];
@@ -258,13 +255,15 @@ app.get('/blog-detail/:id', async (req, res) => {
 
         res.render('blog_detail', { blog: project });
     } catch (err) {
+        console.error('Error fetching project details:', err);
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 });
 
 
-// Edit project route
-app.get('/edit-project/:id', async (req, res) => { //add isAuthenticated if session dosent easily gone like in vercel
+
+// Edit project route (GET /edit-project/:id)
+app.get('/edit-project/:id', isAuthenticated, async (req, res) => {
     const { id } = req.params;
     const projectId = parseInt(id, 10);
 
@@ -273,15 +272,21 @@ app.get('/edit-project/:id', async (req, res) => { //add isAuthenticated if sess
     }
 
     try {
+        // Fetch the project and check ownership
         const result = await pool.query('SELECT * FROM projects WHERE id = $1', [projectId]);
-
+        
         if (result.rows.length === 0) {
             return res.status(404).send('Project not found');
         }
 
         const project = result.rows[0];
-        project.technologies = JSON.parse(project.technologies || '[]');
 
+        // Check if the logged-in user is the owner
+        if (project.user_id !== req.session.userId) {
+            return res.status(403).send('Unauthorized to edit this project');
+        }
+
+        project.technologies = JSON.parse(project.technologies || '[]');
         const allTechnologies = ['Node JS', 'React JS', 'Next JS', 'Type Script'];
         project.technologyCheck = allTechnologies.map(tech => ({
             name: tech,
@@ -324,27 +329,31 @@ app.delete('/delete-project/:id', async (req, res) => { //add isAuthenticated if
 // });
 
 
-app.get('/projects', async (req, res) => {
+// Delete project route (DELETE /delete-project/:id)
+app.delete('/delete-project/:id', isAuthenticated, async (req, res) => {
+    const { id } = req.params;
+
     try {
-        const result = await pool.query(`
-            SELECT projects.*, 
-                   COALESCE(users.username, 'Anonymous') AS author
-            FROM projects
-            LEFT JOIN users ON projects.user_id = users.id
-        `);
+        // Fetch the project to check ownership
+        const projectResult = await pool.query('SELECT user_id FROM projects WHERE id = $1', [id]);
 
-        const projects = result.rows.map(project => ({
-            ...project,
-            technologies: JSON.parse(project.technologies || '[]'),
-            duration: calculateDuration(project.start_date, project.end_date)
-        }));
+        if (projectResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
 
-        res.json(projects);
+        const project = projectResult.rows[0];
+
+        // Check if the logged-in user is the owner
+        if (project.user_id !== req.session.userId) {
+            return res.status(403).json({ error: 'Unauthorized to delete this project' });
+        }
+
+        await pool.query('DELETE FROM projects WHERE id = $1', [id]);
+        res.sendStatus(204);
     } catch (err) {
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 });
-
 
 // Get all projects
 // app.get('/projects', async (req, res) => {
